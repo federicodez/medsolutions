@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                   Int      @id @default(autoincrement())
+  compound_id          String   @unique
+  user_id              Int
+  povider_type         String
+  provider_id          String
+  provider_account_id  String
+  refresh_token        String
+  access_token         String
+  access_token_expires DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([provider_account_id, provider_id, user_id])
+}
+
+model Sessions {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  expires       DateTime
+  session_token String   @unique
+  access_token  String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  emailVerified  DateTime?
+  hashedPassword String
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+}
+
+model Verification_Requests {
+  id         Int      @id @default(autoincrement())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Patient {
+  id           Int      @id @default(autoincrement())
+  name         String
+  provider     String
+  visit_status String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
