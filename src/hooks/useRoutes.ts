@@ -9,10 +9,10 @@ const useRoutes = () => {
   const routes = useMemo(
     () => [
       {
-        label: "Add Patient",
-        href: "/create-patient",
+        label: "Patients",
+        href: "/patients",
         icon: FaUserPlus,
-        active: pathname === "/create-patient",
+        active: pathname === "/patients",
       },
       {
         label: "Home",

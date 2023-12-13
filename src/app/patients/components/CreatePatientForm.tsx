@@ -3,7 +3,7 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { createPatient } from "@/actions/createPatient";
 import { useRouter } from "next/navigation";
 
-const CreatePatient = () => {
+const CreatePatientForm = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<FieldValues>({
     defaultValues: {
@@ -35,4 +35,4 @@ const CreatePatient = () => {
   );
 };
 
-export default CreatePatient;
+export default CreatePatientForm;

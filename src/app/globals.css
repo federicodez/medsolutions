@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui;
+  margin: 0;
+  line-height: 1.5;
+}
+
+Image,
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  color: var(--clr-btn);
+}
+
+p {
+  max-width: 65ch;
+}
+
+.wrapper {
+  width: min(50rem, 100% - 2rem);
+  margin-inline: auto;
+}

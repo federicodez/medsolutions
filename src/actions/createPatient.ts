@@ -1,11 +1,11 @@
 "use server";
-import { query } from "@/libs/db";
+import prisma from "@/db";
 
 export const createPatient = async (lastname: string, firstname: string) => {
   try {
-    await query({
-      query: `INSERT INTO patients (LastName, FirstName) VALUES (?, ?)`,
-      values: [lastname, firstname],
+    const name = `${firstname} ${lastname}`;
+    await prisma.patient.create({
+      data: { name },
     });
   } catch (error) {
     console.log("Failed to get patients ", error);
