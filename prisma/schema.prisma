@@ -33,17 +33,6 @@ model Sessions {
   updatedAt     DateTime @updatedAt
 }
 
-model User {
-  id             Int       @id @default(autoincrement())
-  name           String
-  email          String    @unique
-  emailVerified  DateTime?
-  hashedPassword String
-  image          String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
-}
-
 model Verification_Requests {
   id         Int      @id @default(autoincrement())
   identifier String
@@ -54,10 +43,29 @@ model Verification_Requests {
 }
 
 model patient {
-  id           Int       @id @default(autoincrement())
+  patient_id   Int      @id @default(autoincrement())
   name         String
-  provider     String?
-  visit_status String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @default(now()) @db.Timestamp(0)
+  provider     String   @default("none")
+  visit_status String   @default("Incomplete")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model notes {
+  notes_id   Int       @id @default(autoincrement())
+  note       String    @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @db.DateTime(0)
+  updatedAt  DateTime? @default(now()) @db.Timestamp(0)
+  patient_id Int
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model user {
+  user_id        Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique(map: "User_email_key")
+  hashedPassword String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @db.Timestamp(0)
 }

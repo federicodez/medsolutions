@@ -17,7 +17,7 @@ export const authOptions: AuthOptions = {
           placeholder: "john.doe@example.com",
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         try {
           // check to see if email and password is valid
           if (!credentials?.email || !credentials?.password) {
@@ -32,7 +32,7 @@ export const authOptions: AuthOptions = {
           console.log("user: ", user);
 
           // return user object if everything is valid
-          return user;
+          return user as any;
         } catch (error) {
           console.log(error);
         }

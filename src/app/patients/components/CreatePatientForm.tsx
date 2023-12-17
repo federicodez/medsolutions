@@ -1,6 +1,6 @@
 "use client";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { createPatient } from "@/actions/createPatient";
+import { createPatient } from "@/actions/patients";
 import { useRouter } from "next/navigation";
 
 const CreatePatientForm = () => {

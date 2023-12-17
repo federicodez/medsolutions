@@ -1,8 +1,8 @@
 export type Patient = {
-  id: number;
+  patient_id: number;
   name: string;
-  provider?: string;
-  visit_status?: string;
+  provider: string;
+  visit_status: string;
   createdAt: DateTime;
-  updatedAt?: DateTime;
+  updatedAt: DateTime;
 }[];
