@@ -1,20 +1,21 @@
 import NextAuth, { AuthOptions } from "next-auth";
+import { NextResponse } from "next/server";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/db";
+import bcrypt from "bcrypt";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "John Doe" },
         password: { label: "Password", type: "password" },
         email: {
           label: "Email",
           type: "email",
-          placeholder: "john.doe@example.com",
+          placeholder: "john.doe@email.com",
         },
       },
       async authorize(credentials, req) {
@@ -29,17 +30,34 @@ export const authOptions: AuthOptions = {
               email: credentials.email,
             },
           });
-          console.log("user: ", user);
+
+          if (!user || !user?.hashedPassword) {
+            throw new Error("Invalid Credentials.");
+          }
+
+          const passwordsMatch = await bcrypt.compare(
+            credentials.password,
+            user.hashedPassword
+            )
+
+          console.log("credentials: ", credentials, 'user;', user, passwordsMatch);
+          if (!passwordsMatch) {
+            throw new Error("Wrong Password");
+          }
 
           // return user object if everything is valid
-          return user as any;
+          return { ...credentials, user } as any;
         } catch (error) {
-          console.log(error);
+          return null
         }
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24 * 30,
+  },
   debug: process.env.NODE_ENV === "development",
 };
 

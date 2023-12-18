@@ -13,7 +13,7 @@ export default async function Home() {
         <Link className="text-5xl border-4 p-2 rounded-md" href="/patients">
           <FaUserPlus />
         </Link>
-        <Link className="text-5xl border-4 p-2 rounded-md" href="#">
+        <Link className="text-5xl border-4 p-2 rounded-md" href="/doctor">
           <FaUserDoctor />
         </Link>
       </main>
