@@ -7,5 +7,10 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ["/schedule/:path*", "/create-patient/:path", "/home/:path"],
+  matcher: [
+    "/doctor/:path*",
+    "/home/:path*",
+    "/patients/:path*",
+    "/schedule/:path*",
+  ],
 };

@@ -1,9 +1,18 @@
 "use client";
 
-import type { Patient } from "@/types";
+import type { Patient, SelectedPatient } from "@/types";
 import { useState } from "react";
-import { PatientOptions, NoteForm } from ".";
+import {
+  CreatePatientForm,
+  PatientDetails,
+  PatientOptions,
+  NoteForm,
+  UpdatePatient,
+} from ".";
 import { SlOptions } from "react-icons/sl";
+import { CiHome } from "react-icons/ci";
+import { FaUserPlus } from "react-icons/fa6";
+import Link from "next/link";
 
 type PatientListProps = {
   patients: Patient | null;
@@ -12,41 +21,85 @@ type PatientListProps = {
 const PatientList = ({ patients }: PatientListProps) => {
   const [patientOptions, setPatientOptions] = useState<number | boolean>(false);
   const [addNote, setAddNote] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
+  const [selectedPatient, setSelectedPatient] =
+    useState<SelectedPatient | null>(null);
+  const [showPatientDetails, setShowPatientDetails] =
+    useState<SelectedPatient | null>(null);
+  const [create, setCreate] = useState(false);
+
   return (
     <section className="wrapper my-10">
-      <h1 className="text-center text-lg font-bold m-4">Patients</h1>
+      {create ? <CreatePatientForm setCreate={setCreate} /> : null}
+      {showPatientDetails ? (
+        <PatientDetails showPatientDetails={showPatientDetails} />
+      ) : null}
+      <div className="flex flex-row justify-center items-center">
+        <Link href="/home">
+          <CiHome />
+        </Link>
+        <h1 className="text-center text-lg font-bold m-4">Patients</h1>
+        <div onClick={() => setCreate(true)}>
+          <FaUserPlus />
+        </div>
+      </div>
       {patients?.map(({ patient_id, name, provider, visit_status }) => (
-        <div
-          key={patient_id}
-          className="grid grid-cols-4 justify-evenly gap-5 border p-2"
-        >
-          {patientId ? (
-            <NoteForm
-              patientId={patientId}
-              setPatientId={setPatientId}
-              setPatientOptions={setPatientOptions}
-            />
-          ) : null}
-          {patientOptions === patient_id ? (
-            <PatientOptions
-              patient_id={patient_id}
-              setPatientId={setPatientId}
-              setAddNote={setAddNote}
-              patientOptions={patientOptions}
-              setPatientOptions={setPatientOptions}
-            />
-          ) : null}
-          <div className="capitalize">{name}</div>
-          <div className="">{provider}</div>
-          <div className="">{visit_status}</div>
-          <button
-            type="button"
-            onClick={() => setPatientOptions(patient_id)}
-            className="w-fit"
+        <div key={patient_id} className="flex flex-row border p-2">
+          <div className="absolute w-full">
+            {patientId && addNote ? (
+              <NoteForm
+                patientId={patientId}
+                setPatientId={setPatientId}
+                setPatientOptions={setPatientOptions}
+              />
+            ) : null}
+            {selectedPatient && update ? (
+              <UpdatePatient
+                selectedPatient={selectedPatient}
+                setSelectedPatient={setSelectedPatient}
+                setUpdate={setUpdate}
+              />
+            ) : null}
+            {patientOptions === patient_id ? (
+              <PatientOptions
+                patient_id={patient_id}
+                name={name}
+                provider={provider}
+                visit_status={visit_status}
+                setPatientId={setPatientId}
+                setAddNote={setAddNote}
+                patientOptions={patientOptions}
+                setPatientOptions={setPatientOptions}
+                update={update}
+                setUpdate={setUpdate}
+                selectedPatient={selectedPatient}
+                setSelectedPatient={setSelectedPatient}
+              />
+            ) : null}
+          </div>
+          <div
+            className="flex flex-row gap-5 cursor-pointer"
+            onClick={() =>
+              setShowPatientDetails({
+                patient_id,
+                name,
+                provider,
+                visit_status,
+              })
+            }
           >
-            <SlOptions />
-          </button>
+            <div className="capitalize">{name}</div>
+            <div className="flex justify-center">{provider}</div>
+            <div className="flex justify-center">{visit_status}</div>
+          </div>
+          <div
+            role="button"
+            onClick={() => setPatientOptions(patient_id)}
+            className="w-fit flex items-center"
+          >
+            <SlOptions className="ml-auto w-10" />
+          </div>
         </div>
       ))}
     </section>

@@ -33,32 +33,14 @@ const NoteForm = ({
   };
 
   return (
-    <div
-      className={`
-      fixed 
-      z-10
-      p-3
-      text-black
-      top-1/2 
-      left-1/2 
-      -translate-y-1/2 
-      -translate-x-1/2 
-      rounded-lg 
-      bg-gray-300 
-      w-96
-      h-fit
-      md:w-[850px] 
-      md:top-1/2
-      md:left-2/3
-      md:-translate-x-3/4
-      md:-translate-y-1/2
-    `}
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Add Note</h1>
-        <input {...register("note")} className="w-full rounded-md" />
-        <input type="submit" />
-      </form>
+    <div className="popup">
+      <div className="flex flex-col">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Add Note</h1>
+          <input {...register("note")} className="w-full rounded-md" />
+          <input type="submit" />
+        </form>
+      </div>
     </div>
   );
 };

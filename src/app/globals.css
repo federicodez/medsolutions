@@ -34,3 +34,33 @@ p {
   width: min(50rem, 100% - 2rem);
   margin-inline: auto;
 }
+
+.popup {
+  position: fixed;
+  z-index: 5;
+  padding: 0.75rem;
+  /* color: gray; */
+  top: 50%;
+  /* left: 25%; */
+  /* transform: translateY(50%) translateX(50%); */
+  border-radius: 0.5rem;
+  background-color: gray;
+  width: 850px;
+  height: fit-content;
+}
+
+@media (max-width: 858px) {
+  .popup {
+    position: fixed;
+    z-index: 5;
+    padding: 0.75rem;
+    color: #000;
+    top: 50%;
+    left: 25%;
+    transform: translateY(50%) translateX(50%);
+    border-radius: 0.5rem;
+    background-color: gray;
+    width: 400px;
+    height: fit-content;
+  }
+}

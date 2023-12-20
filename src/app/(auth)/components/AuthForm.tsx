@@ -187,23 +187,6 @@ const AuthForm = () => {
             </div>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="relative flex justify-center text-sm">
-                <span className="line-design px-2 text-white">OR</span>
-              </div>
-            </div>
-
-            <div className="my-6 flex">
-              <button
-                className="flex flex-row gap-5 py-2.5 justify-center items-center bg-white rounded-md w-full text-black text-base"
-                onClick={() => socialAction("google")}
-              >
-                <FcGoogle role="presentation" />
-                SIGN IN WITH GOOGLE
-              </button>
-            </div>
-          </div>
           <div className="relative flex justify-center text-sm">
             <span
               role="button"
@@ -234,7 +217,7 @@ const AuthForm = () => {
             </div>
             <div
               role="button"
-              tabIndex={1}
+              tabIndex={0}
               onClick={toggleVariant}
               className="underline cursor-pointer"
             >
@@ -244,7 +227,7 @@ const AuthForm = () => {
         </div>
       </div>
     </main>
-  )
+  );
 };
 
 export default AuthForm;

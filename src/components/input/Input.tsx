@@ -8,6 +8,7 @@ interface InputProps {
   placeholder?: string;
   id: string;
   type?: string;
+  tab?: number;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
@@ -22,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   required,
   errors,
   type = "text",
+  tab = 0,
   disabled,
 }) => {
   return (
@@ -40,6 +42,7 @@ const Input: React.FC<InputProps> = ({
       </label>
       <div className="mt-2">
         <input
+          tabIndex={tab}
           id={id}
           type={type}
           placeholder={placeholder}
@@ -55,6 +58,7 @@ const Input: React.FC<InputProps> = ({
             rounded-md 
             border-0 
             py-1.5 
+            pl-1.5
             text-gray-900 
             shadow-sm 
             ring-1 

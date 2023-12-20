@@ -1,5 +1,4 @@
 import NextAuth, { AuthOptions } from "next-auth";
-import { NextResponse } from "next/server";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/db";
@@ -37,18 +36,17 @@ export const authOptions: AuthOptions = {
 
           const passwordsMatch = await bcrypt.compare(
             credentials.password,
-            user.hashedPassword
-            )
+            user.hashedPassword,
+          );
 
-          console.log("credentials: ", credentials, 'user;', user, passwordsMatch);
           if (!passwordsMatch) {
             throw new Error("Wrong Password");
           }
 
           // return user object if everything is valid
-          return { ...credentials, user } as any;
+          return user as any;
         } catch (error) {
-          return null
+          return null;
         }
       },
     }),
