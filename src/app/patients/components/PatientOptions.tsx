@@ -1,37 +1,23 @@
 "use client";
+import type { Patient } from "@/types";
 import { HiX } from "react-icons/hi";
 import { deletePatient } from "@/actions/patients";
 import { useRouter } from "next/navigation";
 
 type PatientOptionsProps = {
-  patient_id: number;
-  name: string;
-  provider: string;
-  visit_status: string;
+  patient: Patient;
   setPatientId: React.Dispatch<React.SetStateAction<number | null>>;
   setAddNote: React.Dispatch<React.SetStateAction<boolean>>;
   patientOptions: number | boolean;
   setPatientOptions: React.Dispatch<React.SetStateAction<number | boolean>>;
   update: boolean;
   setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPatient: SelectedPatient | null;
-  setSelectedPatient: React.Dispatch<
-    React.SetStateAction<SelectedPatient | null>
-  >;
-};
-
-type SelectedPatient = {
-  patient_id: number;
-  name: string;
-  provider: string;
-  visit_status: string;
+  selectedPatient: Patient | null;
+  setSelectedPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
 };
 
 const PatientOptions = ({
-  patient_id,
-  name,
-  provider,
-  visit_status,
+  patient,
   setPatientId,
   setAddNote,
   patientOptions,
@@ -50,13 +36,8 @@ const PatientOptions = ({
           onClick={() => {
             setPatientOptions(false);
             setAddNote(true);
-            setPatientId(patient_id);
-            setSelectedPatient({
-              patient_id,
-              name,
-              provider,
-              visit_status,
-            });
+            setPatientId(patient.patient_id);
+            setSelectedPatient(patient);
           }}
         >
           Add Note
@@ -74,13 +55,8 @@ const PatientOptions = ({
         onClick={() => {
           setPatientOptions(false);
           setUpdate(true);
-          setPatientId(patient_id);
-          setSelectedPatient({
-            patient_id,
-            name,
-            provider,
-            visit_status,
-          });
+          setPatientId(patient.patient_id);
+          setSelectedPatient(patient);
         }}
       >
         Update Patient
@@ -88,7 +64,7 @@ const PatientOptions = ({
       <div
         className="m-3"
         onClick={() => {
-          deletePatient(patient_id);
+          deletePatient(patient.patient_id);
           router.refresh();
         }}
       >

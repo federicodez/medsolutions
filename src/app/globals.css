@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: #edede9;
+}
+
 body {
   font-family: system-ui;
   margin: 0;

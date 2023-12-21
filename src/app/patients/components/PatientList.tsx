@@ -1,6 +1,6 @@
 "use client";
 
-import type { Patient, SelectedPatient } from "@/types";
+import type { Patient } from "@/types";
 import { useState } from "react";
 import {
   CreatePatientForm,
@@ -15,7 +15,7 @@ import { FaUserPlus } from "react-icons/fa6";
 import Link from "next/link";
 
 type PatientListProps = {
-  patients: Patient | null;
+  patients: Patient[] | null;
 };
 
 const PatientList = ({ patients }: PatientListProps) => {
@@ -23,10 +23,10 @@ const PatientList = ({ patients }: PatientListProps) => {
   const [addNote, setAddNote] = useState(false);
   const [update, setUpdate] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
-  const [selectedPatient, setSelectedPatient] =
-    useState<SelectedPatient | null>(null);
-  const [showPatientDetails, setShowPatientDetails] =
-    useState<SelectedPatient | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [showPatientDetails, setShowPatientDetails] = useState<Patient | null>(
+    null,
+  );
   const [create, setCreate] = useState(false);
 
   return (
@@ -40,12 +40,12 @@ const PatientList = ({ patients }: PatientListProps) => {
           <CiHome />
         </Link>
         <h1 className="text-center text-lg font-bold m-4">Patients</h1>
-        <div onClick={() => setCreate(true)}>
+        <div onClick={() => setCreate(true)} className="cursor-pointer">
           <FaUserPlus />
         </div>
       </div>
-      {patients?.map(({ patient_id, name, provider, visit_status }) => (
-        <div key={patient_id} className="flex flex-row border p-2">
+      {patients?.map((patient) => (
+        <div key={patient.patient_id} className="">
           <div className="absolute w-full">
             {patientId && addNote ? (
               <NoteForm
@@ -61,12 +61,9 @@ const PatientList = ({ patients }: PatientListProps) => {
                 setUpdate={setUpdate}
               />
             ) : null}
-            {patientOptions === patient_id ? (
+            {patientOptions === patient.patient_id ? (
               <PatientOptions
-                patient_id={patient_id}
-                name={name}
-                provider={provider}
-                visit_status={visit_status}
+                patient={patient}
                 setPatientId={setPatientId}
                 setAddNote={setAddNote}
                 patientOptions={patientOptions}
@@ -78,27 +75,22 @@ const PatientList = ({ patients }: PatientListProps) => {
               />
             ) : null}
           </div>
-          <div
-            className="flex flex-row gap-5 cursor-pointer"
-            onClick={() =>
-              setShowPatientDetails({
-                patient_id,
-                name,
-                provider,
-                visit_status,
-              })
-            }
-          >
-            <div className="capitalize">{name}</div>
-            <div className="flex justify-center">{provider}</div>
-            <div className="flex justify-center">{visit_status}</div>
-          </div>
-          <div
-            role="button"
-            onClick={() => setPatientOptions(patient_id)}
-            className="w-fit flex items-center"
-          >
-            <SlOptions className="ml-auto w-10" />
+          <div className="flex flex-row justify-between border-2 p-2">
+            <div
+              className="grid grid-cols-3 gap-8 cursor-pointer w-full"
+              onClick={() => setShowPatientDetails(patient)}
+            >
+              <div className="capitalize">{patient.name}</div>
+              <div className="mx-auto">{patient.provider}</div>
+              <div className="mx-auto">{patient.visit_status}</div>
+            </div>
+            <div
+              role="button"
+              onClick={() => setPatientOptions(patient.patient_id)}
+              className="w-fit flex items-center"
+            >
+              <SlOptions className="ml-auto w-10 border-2 rounded-md" />
+            </div>
           </div>
         </div>
       ))}

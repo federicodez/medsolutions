@@ -1,9 +1,13 @@
 "use client";
-
+import { user } from "@prisma/client";
 import DesktopItem from "./DesktopItem";
 import useRoutes from "@/hooks/useRoutes";
 
-const DesktopSidebar = () => {
+type DesktopSidebarProps = {
+  currentUser: user;
+};
+
+const DesktopSidebar = ({ currentUser }: DesktopSidebarProps) => {
   const routes = useRoutes();
 
   return (

@@ -1,14 +1,12 @@
 "use client";
-import type { SelectedPatient } from "@/types";
+import type { Patient } from "@/types";
 import { updatePatient } from "@/actions/patients";
 import { useState } from "react";
 import { revalidatePath } from "next/cache";
 
 type UpdatePatientProps = {
-  selectedPatient: SelectedPatient;
-  setSelectedPatient: React.Dispatch<
-    React.SetStateAction<SelectedPatient | null>
-  >;
+  selectedPatient: Patient;
+  setSelectedPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
   setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

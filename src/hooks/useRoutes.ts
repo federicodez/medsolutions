@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { CiHome } from "react-icons/ci";
 import { FaUser, FaUserDoctor } from "react-icons/fa6";
+import { CiCalendar } from "react-icons/ci";
 
 const useRoutes = () => {
   const pathname = usePathname();
@@ -23,7 +24,7 @@ const useRoutes = () => {
       {
         label: "Schedule",
         href: "/schedule",
-        icon: FaUserDoctor,
+        icon: CiCalendar,
         active: pathname == "/schedule",
       },
     ],

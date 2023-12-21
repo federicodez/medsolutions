@@ -43,12 +43,24 @@ model Verification_Requests {
 }
 
 model patient {
-  patient_id   Int      @id @default(autoincrement())
-  name         String
-  provider     String   @default("none")
-  visit_status String   @default("Incomplete")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @db.Timestamp(0)
+  patient_id            Int       @id @default(autoincrement())
+  name                  String
+  provider              String    @default("none")
+  visit_status          String    @default("Incomplete")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @default(now()) @db.Timestamp(0)
+  dob                   DateTime  @default(dbgenerated("'2006-01-01'")) @db.Date
+  last_visit            DateTime  @default(now()) @db.DateTime(0)
+  primary_insurance     String?   @db.VarChar(50)
+  next_appt             DateTime? @db.DateTime(0)
+  allergy               String?   @default("No Known Drug Allergies") @db.VarChar(255)
+  past_medical_history  String?   @default("No Known Surgical History") @db.VarChar(255)
+  past_surgical_history String?   @db.VarChar(255)
+  current_medication    String?   @db.VarChar(255)
+  social_history        String?   @db.VarChar(255)
+  procedure_list        String?   @db.VarChar(255)
+  family_history        String?   @db.VarChar(255)
+  pain_management       String?   @db.VarChar(255)
 }
 
 model notes {
@@ -65,7 +77,7 @@ model user {
   user_id        Int      @id @default(autoincrement())
   name           String
   email          String   @unique(map: "User_email_key")
-  hashedPassword String
+  hashedPassword String   @db.VarChar(255)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @db.Timestamp(0)
 }
