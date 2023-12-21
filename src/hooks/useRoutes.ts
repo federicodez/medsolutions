@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { CiHome } from "react-icons/ci";
-import { FaUserPlus, FaUserDoctor } from "react-icons/fa6";
+import { FaUser, FaUserDoctor } from "react-icons/fa6";
 
 const useRoutes = () => {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ const useRoutes = () => {
       {
         label: "Patients",
         href: "/patients",
-        icon: FaUserPlus,
+        icon: FaUser,
         active: pathname === "/patients",
       },
       {

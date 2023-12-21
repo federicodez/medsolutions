@@ -17,7 +17,7 @@ export const authOptions: AuthOptions = {
           placeholder: "john.doe@email.com",
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         try {
           // check to see if email and password is valid
           if (!credentials?.email || !credentials?.password) {

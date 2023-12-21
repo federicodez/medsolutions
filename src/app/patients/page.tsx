@@ -11,7 +11,6 @@ const Patients = async () => {
   } catch (error) {
     console.log("Failed to fetch patients ", error);
   }
-  return <CreatePatientForm />;
 };
 
 export default Patients;
