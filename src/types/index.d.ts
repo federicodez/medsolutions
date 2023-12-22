@@ -13,10 +13,10 @@ export type Patient = {
 
 export type Allergy = {
   allergy_id: number;
-  allergy: string;
-  createdAt: DateTime;
-  updatedAt: DateTime;
-  patient_id: number;
+  allergy: string | null;
+  createdAt: DateTime | null;
+  updatedAt: DateTime | null;
+  patient_id: number | null;
 };
 
 export type Past_Medical_History = {
@@ -69,10 +69,10 @@ export type Pain_Management = {
 
 export type Procedure_Done = {
   pd_id: number;
-  procedure: string;
-  createdAt: DateTime;
-  updatedAt: DateTime;
-  patient_id: number;
+  procedure?: string | null;
+  createdAt: DateTime | null;
+  updatedAt: DateTime | null;
+  patient_id: number | null;
 };
 
 export type Notes = {

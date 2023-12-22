@@ -2,13 +2,7 @@
 
 import type { Patient } from "@/types";
 import { useState } from "react";
-import {
-  CreatePatientForm,
-  PatientDetails,
-  PatientOptions,
-  NoteForm,
-  UpdatePatient,
-} from ".";
+import { PatientDetails, PatientOptions, NoteForm } from ".";
 import { SlOptions } from "react-icons/sl";
 import { CiHome } from "react-icons/ci";
 import { FaUserPlus } from "react-icons/fa6";
@@ -27,11 +21,9 @@ const PatientList = ({ patients }: PatientListProps) => {
   const [showPatientDetails, setShowPatientDetails] = useState<Patient | null>(
     null,
   );
-  const [create, setCreate] = useState(false);
 
   return (
     <section className="wrapper my-10">
-      {create ? <CreatePatientForm setCreate={setCreate} /> : null}
       {showPatientDetails ? (
         <PatientDetails showPatientDetails={showPatientDetails} />
       ) : null}
@@ -40,9 +32,9 @@ const PatientList = ({ patients }: PatientListProps) => {
           <CiHome />
         </Link>
         <h1 className="text-center text-lg font-bold m-4">Patients</h1>
-        <div onClick={() => setCreate(true)} className="cursor-pointer">
+        <Link href="/create-patient" className="cursor-pointer">
           <FaUserPlus />
-        </div>
+        </Link>
       </div>
       {patients?.map((patient) => (
         <div key={patient.patient_id} className="">
@@ -52,13 +44,6 @@ const PatientList = ({ patients }: PatientListProps) => {
                 patientId={patientId}
                 setPatientId={setPatientId}
                 setPatientOptions={setPatientOptions}
-              />
-            ) : null}
-            {selectedPatient && update ? (
-              <UpdatePatient
-                selectedPatient={selectedPatient}
-                setSelectedPatient={setSelectedPatient}
-                setUpdate={setUpdate}
               />
             ) : null}
             {patientOptions === patient.patient_id ? (

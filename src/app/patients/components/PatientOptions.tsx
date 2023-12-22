@@ -3,6 +3,7 @@ import type { Patient } from "@/types";
 import { HiX } from "react-icons/hi";
 import { deletePatient } from "@/actions/patients";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type PatientOptionsProps = {
   patient: Patient;
@@ -10,9 +11,6 @@ type PatientOptionsProps = {
   setAddNote: React.Dispatch<React.SetStateAction<boolean>>;
   patientOptions: number | boolean;
   setPatientOptions: React.Dispatch<React.SetStateAction<number | boolean>>;
-  update: boolean;
-  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPatient: Patient | null;
   setSelectedPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
 };
 
@@ -22,9 +20,6 @@ const PatientOptions = ({
   setAddNote,
   patientOptions,
   setPatientOptions,
-  update,
-  setUpdate,
-  selectedPatient,
   setSelectedPatient,
 }: PatientOptionsProps) => {
   const router = useRouter();
@@ -50,17 +45,9 @@ const PatientOptions = ({
           <HiX />
         </button>
       </div>
-      <div
-        className="m-3"
-        onClick={() => {
-          setPatientOptions(false);
-          setUpdate(true);
-          setPatientId(patient.patient_id);
-          setSelectedPatient(patient);
-        }}
-      >
+      <Link className="m-3" href={`/update-patient/${patient.patient_id}`}>
         Update Patient
-      </div>
+      </Link>
       <div
         className="m-3"
         onClick={() => {
