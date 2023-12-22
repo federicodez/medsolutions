@@ -7,16 +7,16 @@ export type Patient = {
   updatedAt: DateTime;
   dob: DateTime;
   last_visit: DateTime;
-  primary_insurance?: string;
-  next_appt?: DateTime;
+  primary_insurance?: string | null;
+  next_appt?: DateTime | null;
   allergy: string;
-  past_medical_history?: string;
-  past_surgical_history: string;
-  current_medication?: string;
-  social_history?: string;
-  family_history?: string;
-  pain_management?: string;
-  procedure_list?: string;
+  past_medical_history: string;
+  past_surgical_history?: string | null;
+  current_medication?: string | null;
+  social_history?: string | null;
+  family_history?: string | null;
+  pain_management?: string | null;
+  procedure_list?: string | null;
 };
 
 export type SelectedPatient = {

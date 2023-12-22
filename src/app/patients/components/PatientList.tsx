@@ -15,7 +15,7 @@ import { FaUserPlus } from "react-icons/fa6";
 import Link from "next/link";
 
 type PatientListProps = {
-  patients: Patient[] | null;
+  patients: Patient[];
 };
 
 const PatientList = ({ patients }: PatientListProps) => {

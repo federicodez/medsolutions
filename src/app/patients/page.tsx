@@ -1,11 +1,11 @@
-import { CreatePatientForm, PatientList } from "./components";
+import { PatientList } from "./components";
 import { getPatients } from "@/actions/patients";
 
 export const dynamic = "force-dynamic";
 
 const Patients = async () => {
   try {
-    const patients = (await getPatients()) || [];
+    const patients = await getPatients();
 
     return patients ? <PatientList patients={patients} /> : null;
   } catch (error) {

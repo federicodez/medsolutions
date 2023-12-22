@@ -35,8 +35,8 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
   };
 
   return (
-    <div className="absolute top-0 left-20 w-full h-screen bg-gray-300 px-20 rounded-md">
-      <div className="flex flex-row justify-between gap-2 border-2 border-black rounded-md">
+    <div className="absolute top-0 left-0 pb-20 md:pb-0 md:left-20 w-full bg-gray-300 p-2 md:px-20 rounded-md">
+      <div className="flex flex-col md:flex-row justify-between gap-2 border-2 border-black rounded-md p-2">
         <div className="flex flex-col">
           <div className="capitalize">
             {showPatientDetails.name.split(" ").reverse().join(", ")}
@@ -67,7 +67,7 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Allergy</span>
           <div>{showPatientDetails.allergy}</div>
@@ -89,9 +89,10 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
           <div>{showPatientDetails.social_history}</div>
         </div>
         <ul className="border-2 border-black rounded-md overflow-auto h-48">
+          <span className="font-bold">Personal Notes</span>
           {notes?.map(({ notes_id, note, createdAt, updatedAt }) => (
             <li className="p-2 my-2" key={notes_id}>
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between w-full mb-2">
                 <HiPencilAlt onClick={() => setUpdate(notes_id)} />
                 <HiX
                   onClick={() => {
@@ -119,11 +120,11 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
               )}
               <div className="flex flex-row gap-2">
                 <p>Created</p>
-                <div>{moment(createdAt).format("MMM Do YY, h:mm:ss a")}</div>
+                <div>{moment(createdAt).format("L")}</div>
               </div>
               <div className="flex flex-row gap-2">
                 <p>Updated</p>
-                <div>{moment(updatedAt).format("MMM Do YY, h:mm:ss a")}</div>
+                <div>{moment(updatedAt).format("L")}</div>
               </div>
             </li>
           ))}
