@@ -1,9 +1,9 @@
 "use client";
-import type { Notes, Patient } from "@/types";
+import type { Notes, Patient, Allergy } from "@/types";
 import { useState, useEffect } from "react";
 import { deleteNote, getPatientNotes, updateNote } from "@/actions/notes";
+import { deletePatientAllergy, getPatientAllergies } from "@/actions/allergy";
 import moment from "moment";
-import { SlOptions } from "react-icons/sl";
 import { HiX } from "react-icons/hi";
 import { HiPencilAlt } from "react-icons/hi";
 import { useRouter } from "next/navigation";
@@ -13,19 +13,26 @@ type PatientDetailsProps = {
 };
 
 const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
-  const [notes, setNotes] = useState<Notes | null>(null);
+  const [notes, setNotes] = useState<Notes[] | null>(null);
+  const [allergies, setAllergies] = useState<Allergy[] | null>(null);
   const [newNote, setNewNote] = useState("");
   const [update, setUpdate] = useState<number | boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
-    const getNotes = async () => {
+    const getData = async () => {
       const notes = await getPatientNotes(showPatientDetails.patient_id);
       if (notes) {
         setNotes(notes);
       }
+      const allergies = await getPatientAllergies(
+        showPatientDetails.patient_id,
+      );
+      if (allergies) {
+        setAllergies(allergies);
+      }
     };
-    getNotes();
+    getData();
   }, [showPatientDetails.patient_id]);
 
   const handleSubmit = async (notes_id: number) => {

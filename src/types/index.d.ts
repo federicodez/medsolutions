@@ -9,21 +9,70 @@ export type Patient = {
   last_visit: DateTime;
   primary_insurance?: string | null;
   next_appt?: DateTime | null;
-  allergy: string;
-  past_medical_history: string;
-  past_surgical_history?: string | null;
-  current_medication?: string | null;
-  social_history?: string | null;
-  family_history?: string | null;
-  pain_management?: string | null;
-  procedure_list?: string | null;
 };
 
-export type SelectedPatient = {
+export type Allergy = {
+  allergy_id: number;
+  allergy: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
   patient_id: number;
-  name: string;
-  provider: string;
-  visit_status: string;
+};
+
+export type Past_Medical_History = {
+  pmh_id: number;
+  history: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Past_Surgical_History = {
+  psh_id: number;
+  history: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Current_Medication = {
+  cm_id: number;
+  medication: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Social_History = {
+  sh_id: number;
+  history: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Family_History = {
+  fh_id: number;
+  history: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Pain_Management = {
+  pm_id: number;
+  pain: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
+};
+
+export type Procedure_Done = {
+  pd_id: number;
+  procedure: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  patient_id: number;
 };
 
 export type Notes = {
@@ -32,4 +81,4 @@ export type Notes = {
   createdAt: DateTime;
   updatedAt: DateTime;
   patient_id: number;
-}[];
+};

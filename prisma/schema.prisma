@@ -43,24 +43,24 @@ model Verification_Requests {
 }
 
 model patient {
-  patient_id            Int       @id @default(autoincrement())
+  patient_id            Int                     @id @default(autoincrement())
   name                  String
-  provider              String    @default("none")
-  visit_status          String    @default("Incomplete")
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @default(now()) @db.Timestamp(0)
-  dob                   DateTime  @default(dbgenerated("'2006-01-01'")) @db.Date
-  last_visit            DateTime  @default(now()) @db.DateTime(0)
-  primary_insurance     String?   @db.VarChar(50)
-  next_appt             DateTime? @db.DateTime(0)
-  allergy               String    @default("No Known Drug Allergies") @db.VarChar(255)
-  past_medical_history  String    @default("No Known Surgical History") @db.VarChar(255)
-  past_surgical_history String?   @db.VarChar(255)
-  current_medication    String?   @db.VarChar(255)
-  social_history        String?   @db.VarChar(255)
-  procedure_list        String?   @db.VarChar(255)
-  family_history        String?   @db.VarChar(255)
-  pain_management       String?   @db.VarChar(255)
+  provider              String                  @default("none")
+  visit_status          String                  @default("Incomplete")
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now()) @db.Timestamp(0)
+  dob                   DateTime                @default(dbgenerated("'2006-01-01'")) @db.Date
+  last_visit            DateTime                @default(now()) @db.DateTime(0)
+  primary_insurance     String?                 @db.VarChar(50)
+  next_appt             DateTime?               @db.DateTime(0)
+  Current_Medication    Current_Medication[]
+  Family_History        Family_History[]
+  Pain_Management       Pain_Management[]
+  Past_Medical_History  Past_Medical_History[]
+  Past_Surgical_History Past_Surgical_History[]
+  Procedures_Done       Procedures_Done[]
+  Social_History        Social_History[]
+  allergy               allergy[]
 }
 
 model notes {
@@ -80,4 +80,92 @@ model user {
   hashedPassword String   @db.VarChar(255)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Current_Medication {
+  cm_id      Int       @id @default(autoincrement())
+  medication String?   @default("No Known Current Medication") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "current_medication_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Family_History {
+  fm_id      Int       @id @default(autoincrement())
+  family     String?   @default("No Known Family History") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "family_history_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Pain_Management {
+  pm_id      Int       @id @default(autoincrement())
+  pain       String?   @default("No Known Pain Management") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "pain_management_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Past_Medical_History {
+  pmh_id     Int       @id @default(autoincrement())
+  history    String    @default("No Known Surgical History") @db.VarChar(255)
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient_id Int?
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_medical_history_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Past_Surgical_History {
+  psh_id     Int       @id @default(autoincrement())
+  history    String    @default("No Known Surgical History") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Procedures_Done {
+  pd_id      Int       @id @default(autoincrement())
+  procedures String?   @default("No Known Procedures Done") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "procedures_done_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model Social_History {
+  sh_id      Int       @id @default(autoincrement())
+  history    String?   @default("No Known Social History") @db.VarChar(255)
+  patient_id Int?
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "social_history_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model allergy {
+  allergy_id Int       @id @default(autoincrement())
+  allergy    String    @default("No Known Drug Allergies") @db.VarChar(255)
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+  patient_id Int?
+  patient    patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "allergy_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
 }
