@@ -4,7 +4,6 @@ import PatientList from "./PatientList";
 import PatientMessages from "./PatientMessages";
 import PatientOptions from "./PatientOptions";
 import NoteForm from "./NoteForm";
-import UpdatePatient from "./UpdatePatient";
 
 export {
   DeletePatient,
@@ -13,5 +12,4 @@ export {
   PatientMessages,
   PatientOptions,
   NoteForm,
-  UpdatePatient,
 };

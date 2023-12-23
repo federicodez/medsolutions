@@ -19,7 +19,7 @@ export type Allergy = {
   patient_id: number | null;
 };
 
-export type Past_Medical_History = {
+export type PastMedicalHistory = {
   pmh_id: number;
   history: string;
   createdAt: DateTime;
@@ -27,7 +27,7 @@ export type Past_Medical_History = {
   patient_id: number;
 };
 
-export type Past_Surgical_History = {
+export type PastSurgicalHistory = {
   psh_id: number;
   history: string;
   createdAt: DateTime;
@@ -35,7 +35,7 @@ export type Past_Surgical_History = {
   patient_id: number;
 };
 
-export type Current_Medication = {
+export type CurrentMedication = {
   cm_id: number;
   medication: string;
   createdAt: DateTime;
@@ -43,7 +43,7 @@ export type Current_Medication = {
   patient_id: number;
 };
 
-export type Social_History = {
+export type SocialHistory = {
   sh_id: number;
   history: string;
   createdAt: DateTime;
@@ -51,7 +51,7 @@ export type Social_History = {
   patient_id: number;
 };
 
-export type Family_History = {
+export type FamilyHistory = {
   fh_id: number;
   history: string;
   createdAt: DateTime;
@@ -59,7 +59,7 @@ export type Family_History = {
   patient_id: number;
 };
 
-export type Pain_Management = {
+export type PainManagement = {
   pm_id: number;
   pain: string;
   createdAt: DateTime;
@@ -67,7 +67,7 @@ export type Pain_Management = {
   patient_id: number;
 };
 
-export type Procedure_Done = {
+export type ProcedureDone = {
   pd_id: number;
   procedure?: string | null;
   createdAt: DateTime | null;

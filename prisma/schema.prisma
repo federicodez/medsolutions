@@ -33,7 +33,7 @@ model Sessions {
   updatedAt     DateTime @updatedAt
 }
 
-model Verification_Requests {
+model VerificationRequests {
   id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique
@@ -64,10 +64,10 @@ model Patient {
 }
 
 model Note {
-  notes_id   Int       @id @default(autoincrement())
-  note       String    @db.VarChar(255)
-  createdAt  DateTime  @default(now()) @db.DateTime(0)
-  updatedAt  DateTime? @default(now()) @db.Timestamp(0)
+  notes_id   Int      @id @default(autoincrement())
+  note       String   @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.DateTime(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   patient_id Int
 
   @@index([patient_id], map: "patient_id")
@@ -83,78 +83,78 @@ model User {
 }
 
 model CurrentMedication {
-  cm_id      Int       @id @default(autoincrement())
-  medication String?   @default("No Known Current Medication") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "current_medication_ibfk_1")
+  cm_id      Int      @id @default(autoincrement())
+  medication String   @default("No Known Current Medication") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "current_medication_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model FamilyHistory {
-  fm_id      Int       @id @default(autoincrement())
-  family     String?   @default("No Known Family History") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "family_history_ibfk_1")
+  fm_id      Int      @id @default(autoincrement())
+  family     String   @default("No Known Family History") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "family_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model PainManagement {
-  pm_id      Int       @id @default(autoincrement())
-  pain       String?   @default("No Known Pain Management") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "pain_management_ibfk_1")
+  pm_id      Int      @id @default(autoincrement())
+  pain       String   @default("No Known Pain Management") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "pain_management_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model PastMedicalHistory {
-  pmh_id     Int       @id @default(autoincrement())
-  history    String    @default("No Known Surgical History") @db.VarChar(255)
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  patient_id Int?
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_medical_history_ibfk_1")
+  pmh_id     Int      @id @default(autoincrement())
+  history    String   @default("No Known Surgical History") @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  patient_id Int
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_medical_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model PastSurgicalHistory {
-  psh_id     Int       @id @default(autoincrement())
-  history    String    @default("No Known Surgical History") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
+  psh_id     Int      @id @default(autoincrement())
+  history    String   @default("No Known Surgical History") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model ProceduresDone {
-  pd_id      Int       @id @default(autoincrement())
-  procedures String?   @default("No Known Procedures Done") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "procedures_done_ibfk_1")
+  pd_id      Int      @id @default(autoincrement())
+  procedures String   @default("No Known Procedures Done") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "procedures_done_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model SocialHistory {
-  sh_id      Int       @id @default(autoincrement())
-  history    String?   @default("No Known Social History") @db.VarChar(255)
-  patient_id Int?
-  createdAt  DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime? @db.Timestamp(0)
-  Patient    Patient?  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "social_history_ibfk_1")
+  sh_id      Int      @id @default(autoincrement())
+  history    String   @default("No Known Social History") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "social_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }

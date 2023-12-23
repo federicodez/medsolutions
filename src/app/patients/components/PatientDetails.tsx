@@ -1,8 +1,16 @@
 "use client";
-import type { Notes, Patient, Allergy } from "@/types";
+import type {
+  Notes,
+  Patient,
+  Allergy,
+  PastMedicalHistory,
+  PastSurgicalHistory,
+  CurrentMedication,
+} from "@/types";
 import { useState, useEffect } from "react";
 import { deleteNote, getPatientNotes, updateNote } from "@/actions/notes";
 import { deletePatientAllergy, getPatientAllergies } from "@/actions/allergy";
+import { getMedicalHistory } from "@/actions/medical-history";
 import moment from "moment";
 import { HiX } from "react-icons/hi";
 import { HiPencilAlt } from "react-icons/hi";
@@ -15,6 +23,9 @@ type PatientDetailsProps = {
 const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
   const [notes, setNotes] = useState<Notes[] | null>(null);
   const [allergies, setAllergies] = useState<Allergy[] | null>(null);
+  const [medical, setMedical] = useState<PastMedicalHistory[] | null>(null);
+  const [surgical, setSurgical] = useState<PastSurgicalHistory | null>(null);
+  const [medication, setMedication] = useState<CurrentMedication | null>(null);
   const [newNote, setNewNote] = useState("");
   const [update, setUpdate] = useState<number | boolean>(false);
   const router = useRouter();
@@ -31,9 +42,16 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
       if (allergies) {
         setAllergies(allergies);
       }
+      const medical = await getMedicalHistory(showPatientDetails.patient_id);
+
+      if (medical) {
+        setMedical(medical);
+      }
     };
     getData();
   }, [showPatientDetails.patient_id]);
+
+  console.log("allergies: ", allergies);
 
   const handleSubmit = async (notes_id: number) => {
     await updateNote(notes_id, newNote);
@@ -77,23 +95,25 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Allergy</span>
-          <div>{showPatientDetails.allergy}</div>
+          {allergies?.map(({ allergy_id, allergy }) => (
+            <div key={allergy_id}>{allergy}</div>
+          ))}
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Past Medical History</span>
-          <div>{showPatientDetails.past_medical_history}</div>
+          <div>No Known Medical History</div>
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Past Surgical History</span>
-          <div>{showPatientDetails.past_surgical_history}</div>
+          <div>No Known Surgical History</div>
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Current Medication</span>
-          <div>{showPatientDetails.current_medication}</div>
+          <div>No Known Current Medication</div>
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Social History</span>
-          <div>{showPatientDetails.social_history}</div>
+          <div>No Known Social History</div>
         </div>
         <ul className="border-2 border-black rounded-md overflow-auto h-48">
           <span className="font-bold">Personal Notes</span>
@@ -138,15 +158,15 @@ const PatientDetails = ({ showPatientDetails }: PatientDetailsProps) => {
         </ul>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">List of procedures done</span>
-          <div>{showPatientDetails.procedure_list}</div>
+          <div>No Known Procedures Done</div>
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Family History</span>
-          <div>{showPatientDetails.family_history}</div>
+          <div>No Known Family History</div>
         </div>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Pain Management</span>
-          <div>{showPatientDetails.pain_management}</div>
+          <div>No Known Pain Management</div>
         </div>
       </div>
     </div>

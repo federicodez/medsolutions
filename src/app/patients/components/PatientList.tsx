@@ -15,7 +15,6 @@ type PatientListProps = {
 const PatientList = ({ patients }: PatientListProps) => {
   const [patientOptions, setPatientOptions] = useState<number | boolean>(false);
   const [addNote, setAddNote] = useState(false);
-  const [update, setUpdate] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [showPatientDetails, setShowPatientDetails] = useState<Patient | null>(
@@ -53,9 +52,6 @@ const PatientList = ({ patients }: PatientListProps) => {
                 setAddNote={setAddNote}
                 patientOptions={patientOptions}
                 setPatientOptions={setPatientOptions}
-                update={update}
-                setUpdate={setUpdate}
-                selectedPatient={selectedPatient}
                 setSelectedPatient={setSelectedPatient}
               />
             ) : null}
