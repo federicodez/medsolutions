@@ -6,7 +6,7 @@ import type {
   PastSurgicalHistory,
   CurrentMedication,
 } from "@/types";
-import { Allergies } from "./allergy";
+import Allergies from "./Allergies";
 import { useState, useEffect, Suspense } from "react";
 import { deleteNote, getPatientNotes, updateNote } from "@/actions/notes";
 import { deletePatientAllergy, getPatientAllergies } from "@/actions/allergy";
@@ -17,10 +17,10 @@ import { HiPencilAlt } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 
 type PatientDetailsProps = {
-  selectedPatient: Patient;
+  patient: Patient;
 };
 
-const PatientDetails = ({ selectedPatient }: PatientDetailsProps) => {
+const PatientDetails = ({ patient }: PatientDetailsProps) => {
   const [notes, setNotes] = useState<Notes[] | null>(null);
   const [medical, setMedical] = useState<PastMedicalHistory[] | null>(null);
   const [surgical, setSurgical] = useState<PastSurgicalHistory | null>(null);
@@ -31,18 +31,18 @@ const PatientDetails = ({ selectedPatient }: PatientDetailsProps) => {
 
   useEffect(() => {
     const getData = async () => {
-      const notes = await getPatientNotes(selectedPatient.patient_id);
+      const notes = await getPatientNotes(patient.patient_id);
       if (notes) {
         setNotes(notes);
       }
-      const medical = await getMedicalHistory(selectedPatient.patient_id);
+      const medical = await getMedicalHistory(patient.patient_id);
 
       if (medical) {
         setMedical(medical);
       }
     };
     getData();
-  }, [selectedPatient.patient_id]);
+  }, [patient.patient_id]);
 
   const handleSubmit = async (notes_id: number) => {
     await updateNote(notes_id, newNote);
@@ -55,37 +55,37 @@ const PatientDetails = ({ selectedPatient }: PatientDetailsProps) => {
       <div className="flex flex-col md:flex-row justify-between gap-2 border-2 border-black rounded-md p-2">
         <div className="flex flex-col">
           <div className="capitalize">
-            {selectedPatient.name.split(" ").reverse().join(", ")}
+            {patient.name.split(" ").reverse().join(", ")}
           </div>
           <div className="flex flex-row gap-2">
             <span className="font-bold">dob:</span>
-            <div>{moment(selectedPatient.dob).format("MMMM Do YYYY")}</div>
+            <div>{moment(patient.dob).format("MMMM Do YYYY")}</div>
           </div>
         </div>
         <div className="flex flex-col">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Last Visit:</span>
-            <div>{moment(selectedPatient.last_visit).format("L")}</div>
+            <div>{moment(patient.last_visit).format("L")}</div>
           </div>
           <div className="flex flex-row gap-2">
             <span className="font-bold">Primary Insurance:</span>
-            <div>{selectedPatient.primary_insurance}</div>
+            <div>{patient.primary_insurance}</div>
           </div>
         </div>
         <div className="flex flex-col">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Provider:</span>
-            <div>{selectedPatient.provider}</div>
+            <div>{patient.provider}</div>
           </div>
           <div className="flex flex-row gap-2">
             <span className="font-bold">Next Appt:</span>
-            <div>{selectedPatient.next_appt}</div>
+            <div>{patient.next_appt}</div>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
         <Suspense fallback={<p>...loading</p>}>
-          <Allergies selectedPatient={selectedPatient} />
+          <Allergies selectedPatient={patient} />
         </Suspense>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Past Medical History</span>

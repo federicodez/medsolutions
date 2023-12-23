@@ -53,6 +53,7 @@ model Patient {
   last_visit          DateTime              @default(now()) @db.DateTime(0)
   primary_insurance   String?               @db.VarChar(50)
   next_appt           DateTime?             @db.DateTime(0)
+  Allergy             Allergy[]
   CurrentMedication   CurrentMedication[]
   FamilyHistory       FamilyHistory[]
   PainManagement      PainManagement[]
@@ -60,7 +61,6 @@ model Patient {
   PastSurgicalHistory PastSurgicalHistory[]
   ProceduresDone      ProceduresDone[]
   SocialHistory       SocialHistory[]
-  Allergy             Allergy[]
 }
 
 model Note {
@@ -76,7 +76,7 @@ model Note {
 model User {
   user_id        Int      @id @default(autoincrement())
   name           String
-  email          String   @unique(map: "User_email_key")
+  email          String   @unique
   hashedPassword String   @db.VarChar(255)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @db.Timestamp(0)
@@ -87,18 +87,18 @@ model CurrentMedication {
   medication String   @default("No Known Current Medication") @db.VarChar(255)
   patient_id Int
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "current_medication_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
 
 model FamilyHistory {
-  fm_id      Int      @id @default(autoincrement())
+  fh_id      Int      @id @default(autoincrement())
   family     String   @default("No Known Family History") @db.VarChar(255)
   patient_id Int
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "family_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
@@ -109,7 +109,7 @@ model PainManagement {
   pain       String   @default("No Known Pain Management") @db.VarChar(255)
   patient_id Int
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "pain_management_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
@@ -119,20 +119,9 @@ model PastMedicalHistory {
   pmh_id     Int      @id @default(autoincrement())
   history    String   @default("No Known Surgical History") @db.VarChar(255)
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   patient_id Int
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_medical_history_ibfk_1")
-
-  @@index([patient_id], map: "patient_id")
-}
-
-model PastSurgicalHistory {
-  psh_id     Int      @id @default(autoincrement())
-  history    String   @default("No Known Surgical History") @db.VarChar(255)
-  patient_id Int
-  createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
-  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }
@@ -142,7 +131,7 @@ model ProceduresDone {
   procedures String   @default("No Known Procedures Done") @db.VarChar(255)
   patient_id Int
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "procedures_done_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
@@ -153,7 +142,7 @@ model SocialHistory {
   history    String   @default("No Known Social History") @db.VarChar(255)
   patient_id Int
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "social_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
@@ -163,9 +152,20 @@ model Allergy {
   allergy_id Int      @id @default(autoincrement())
   allergy    String   @default("No Known Drug Allergies") @db.VarChar(255)
   createdAt  DateTime @default(now()) @db.Timestamp(0)
-  updatedAt  DateTime @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
   patient_id Int
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "allergy_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model PastSurgicalHistory {
+  psh_id     Int      @id @default(autoincrement())
+  surgery    String   @default("No Known Surgical History") @db.VarChar(255)
+  patient_id Int
+  createdAt  DateTime @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
+  Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
 
   @@index([patient_id], map: "patient_id")
 }

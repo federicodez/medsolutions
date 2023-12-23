@@ -29,7 +29,7 @@ export type PastMedicalHistory = {
 
 export type PastSurgicalHistory = {
   psh_id: number;
-  history: string;
+  surgery: string;
   createdAt: DateTime;
   updatedAt: DateTime;
   patient_id: number;
@@ -53,7 +53,7 @@ export type SocialHistory = {
 
 export type FamilyHistory = {
   fh_id: number;
-  history: string;
+  family: string;
   createdAt: DateTime;
   updatedAt: DateTime;
   patient_id: number;
@@ -67,7 +67,7 @@ export type PainManagement = {
   patient_id: number;
 };
 
-export type ProcedureDone = {
+export type Procedure_Done = {
   pd_id: number;
   procedure?: string | null;
   createdAt: DateTime | null;

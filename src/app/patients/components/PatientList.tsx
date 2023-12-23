@@ -17,14 +17,11 @@ const PatientList = ({ patients }: PatientListProps) => {
   const [addNote, setAddNote] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [showPatientDetails, setShowPatientDetails] = useState<Patient | null>(
-    null,
-  );
 
   return (
     <section className="wrapper my-10">
-      {showPatientDetails ? (
-        <PatientDetails showPatientDetails={showPatientDetails} />
+      {selectedPatient ? (
+        <PatientDetails selectedPatient={selectedPatient} />
       ) : null}
       <div className="flex flex-row justify-center items-center">
         <Link href="/home">
@@ -59,7 +56,7 @@ const PatientList = ({ patients }: PatientListProps) => {
           <div className="flex flex-row justify-between border-2 p-2">
             <div
               className="grid grid-cols-3 gap-8 cursor-pointer w-full"
-              onClick={() => setShowPatientDetails(patient)}
+              onClick={() => setSelectedPatient(patient)}
             >
               <div className="capitalize">{patient.name}</div>
               <div className="mx-auto">{patient.provider}</div>

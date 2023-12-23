@@ -34,7 +34,7 @@ const NoteForm = ({
 
   return (
     <div className="popup">
-      <div className="flex flex-col">
+      <div className="flex">
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Add Note</h1>
           <input {...register("note")} className="w-full rounded-md" />
