@@ -63,16 +63,6 @@ model Patient {
   SocialHistory       SocialHistory[]
 }
 
-model Note {
-  notes_id   Int      @id @default(autoincrement())
-  note       String   @db.VarChar(255)
-  createdAt  DateTime @default(now()) @db.DateTime(0)
-  updatedAt  DateTime @default(now()) @db.Timestamp(0)
-  patient_id Int
-
-  @@index([patient_id], map: "patient_id")
-}
-
 model User {
   user_id        Int      @id @default(autoincrement())
   name           String
@@ -166,6 +156,16 @@ model PastSurgicalHistory {
   createdAt  DateTime @default(now()) @db.Timestamp(0)
   updatedAt  DateTime @default(now()) @db.Timestamp(0)
   Patient    Patient  @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "past_surgical_history_ibfk_1")
+
+  @@index([patient_id], map: "patient_id")
+}
+
+model note {
+  note_id    Int      @id @default(autoincrement())
+  note       String   @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.DateTime(0)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
+  patient_id Int
 
   @@index([patient_id], map: "patient_id")
 }

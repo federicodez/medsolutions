@@ -8,7 +8,6 @@ import Link from "next/link";
 type PatientOptionsProps = {
   patient: Patient;
   setPatientId: React.Dispatch<React.SetStateAction<number | null>>;
-  setAddNote: React.Dispatch<React.SetStateAction<boolean>>;
   patientOptions: number | boolean;
   setPatientOptions: React.Dispatch<React.SetStateAction<number | boolean>>;
   setSelectedPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
@@ -17,7 +16,6 @@ type PatientOptionsProps = {
 const PatientOptions = ({
   patient,
   setPatientId,
-  setAddNote,
   patientOptions,
   setPatientOptions,
   setSelectedPatient,
@@ -25,31 +23,25 @@ const PatientOptions = ({
   const router = useRouter();
 
   return (
-    <div className="absolute bg-gray-200 rounded-md p-2 cursor-pointer">
-      <div className="flex flex-row justify-between m-3">
+    <div className="absolute bg-gray-200 border-2 border-black rounded-md p-2 cursor-pointer">
+      <div className="flex flex-row justify-between gap-10">
         <div
-          onClick={() => {
-            setPatientOptions(false);
-            setAddNote(true);
-            setPatientId(patient.patient_id);
-            setSelectedPatient(patient);
-          }}
+          role="button"
+          className=""
+          onClick={() => router.push(`/update-patient/${patient.patient_id}`)}
         >
-          Add Note
+          Update Patient
         </div>
-        <button
-          type="button"
+        <div
+          role="button"
           onClick={() => setPatientOptions(!patientOptions)}
-          className="text-lg border-2 border-black rounded-md"
+          className="text-lg rounded-md hover:text-red-600"
         >
           <HiX />
-        </button>
+        </div>
       </div>
-      <Link className="m-3" href={`/update-patient/${patient.patient_id}`}>
-        Update Patient
-      </Link>
       <div
-        className="m-3"
+        className=""
         onClick={() => {
           deletePatient(patient.patient_id);
           router.refresh();

@@ -15,7 +15,6 @@ type PatientListProps = {
 
 const PatientList = ({ patients }: PatientListProps) => {
   const [patientOptions, setPatientOptions] = useState<number | boolean>(false);
-  const [addNote, setAddNote] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const router = useRouter();
@@ -32,26 +31,16 @@ const PatientList = ({ patients }: PatientListProps) => {
         </Link>
       </div>
       {patients?.map((patient) => (
-        <div key={patient.patient_id} className="">
-          <div className="absolute w-full">
-            {patientId && addNote ? (
-              <NoteForm
-                patientId={patientId}
-                setPatientId={setPatientId}
-                setPatientOptions={setPatientOptions}
-              />
-            ) : null}
-            {patientOptions === patient.patient_id ? (
-              <PatientOptions
-                patient={patient}
-                setPatientId={setPatientId}
-                setAddNote={setAddNote}
-                patientOptions={patientOptions}
-                setPatientOptions={setPatientOptions}
-                setSelectedPatient={setSelectedPatient}
-              />
-            ) : null}
-          </div>
+        <div key={patient.patient_id} className="w-full">
+          {patientOptions === patient.patient_id ? (
+            <PatientOptions
+              patient={patient}
+              setPatientId={setPatientId}
+              patientOptions={patientOptions}
+              setPatientOptions={setPatientOptions}
+              setSelectedPatient={setSelectedPatient}
+            />
+          ) : null}
           <div className="flex flex-row justify-between border-2 p-2">
             <div
               className="grid grid-cols-3 gap-8 cursor-pointer w-full"

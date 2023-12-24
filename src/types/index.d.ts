@@ -75,8 +75,8 @@ export type Procedure_Done = {
   patient_id: number | null;
 };
 
-export type Notes = {
-  notes_id: number;
+export type Note = {
+  note_id: number;
   note: string;
   createdAt: DateTime;
   updatedAt: DateTime;
