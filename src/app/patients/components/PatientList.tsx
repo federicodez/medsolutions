@@ -7,6 +7,7 @@ import { SlOptions } from "react-icons/sl";
 import { CiHome } from "react-icons/ci";
 import { FaUserPlus } from "react-icons/fa6";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type PatientListProps = {
   patients: Patient[];
@@ -17,12 +18,10 @@ const PatientList = ({ patients }: PatientListProps) => {
   const [addNote, setAddNote] = useState(false);
   const [patientId, setPatientId] = useState<number | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const router = useRouter();
 
   return (
     <section className="wrapper my-10">
-      {selectedPatient ? (
-        <PatientDetails selectedPatient={selectedPatient} />
-      ) : null}
       <div className="flex flex-row justify-center items-center">
         <Link href="/home">
           <CiHome />
@@ -56,7 +55,7 @@ const PatientList = ({ patients }: PatientListProps) => {
           <div className="flex flex-row justify-between border-2 p-2">
             <div
               className="grid grid-cols-3 gap-8 cursor-pointer w-full"
-              onClick={() => setSelectedPatient(patient)}
+              onClick={() => router.push(`/patient/${patient.patient_id}`)}
             >
               <div className="capitalize">{patient.name}</div>
               <div className="mx-auto">{patient.provider}</div>

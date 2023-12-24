@@ -43,10 +43,10 @@ p {
   position: fixed;
   z-index: 5;
   padding: 0.75rem;
-  /* color: gray; */
+  color: gray;
   top: 50%;
-  /* left: 25%; */
-  /* transform: translateY(50%) translateX(50%); */
+  left: 25%;
+  transform: translateY(50%) translateX(50%);
   border-radius: 0.5rem;
   background-color: gray;
   width: 850px;

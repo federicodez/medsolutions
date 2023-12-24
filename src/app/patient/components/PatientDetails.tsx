@@ -1,5 +1,7 @@
 "use client";
+
 import type {
+  Allergy,
   Notes,
   Patient,
   PastMedicalHistory,
@@ -9,11 +11,10 @@ import type {
 import Allergies from "./Allergies";
 import { useState, useEffect, Suspense } from "react";
 import { deleteNote, getPatientNotes, updateNote } from "@/actions/notes";
-import { deletePatientAllergy, getPatientAllergies } from "@/actions/allergy";
+import { getPatientAllergies } from "@/actions/allergy";
 import { getMedicalHistory } from "@/actions/medical-history";
 import moment from "moment";
-import { HiX } from "react-icons/hi";
-import { HiPencilAlt } from "react-icons/hi";
+import { HiX, HiPencilAlt } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 
 type PatientDetailsProps = {
@@ -21,6 +22,7 @@ type PatientDetailsProps = {
 };
 
 const PatientDetails = ({ patient }: PatientDetailsProps) => {
+  const [allergies, setAllergies] = useState<Allergy[]>([]);
   const [notes, setNotes] = useState<Notes[] | null>(null);
   const [medical, setMedical] = useState<PastMedicalHistory[] | null>(null);
   const [surgical, setSurgical] = useState<PastSurgicalHistory | null>(null);
@@ -31,6 +33,10 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
 
   useEffect(() => {
     const getData = async () => {
+      const allergies = await getPatientAllergies(patient.patient_id);
+      if (allergies) {
+        setAllergies(allergies);
+      }
       const notes = await getPatientNotes(patient.patient_id);
       if (notes) {
         setNotes(notes);
@@ -85,7 +91,7 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
         <Suspense fallback={<p>...loading</p>}>
-          <Allergies selectedPatient={patient} />
+          <Allergies patient={patient} initialAllergies={allergies} />
         </Suspense>
         <div className="border-2 border-black rounded-md h-48">
           <span className="font-bold">Past Medical History</span>
