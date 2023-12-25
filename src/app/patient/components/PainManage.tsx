@@ -1,50 +1,55 @@
 "use client";
 
-import type { Patient, Allergy } from "@/types";
+import type { Patient, PainManagement } from "@/types";
 import { useState, useEffect } from "react";
-import { getPatientAllergies, deletePatientAllergy } from "@/actions/allergy";
+import {
+  getPainManagement,
+  deleteFromPainManagement,
+} from "@/actions/pain-management";
 import Options from "@/components/Options";
 import { SlOptions } from "react-icons/sl";
 import { MdFileDownloadDone } from "react-icons/md";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
-import { AddAllergy } from ".";
+import { AddPainManage } from ".";
 
 export const dynamic = "force-dynamic";
 
-type AllergiesProps = {
+type PainManageProps = {
   patient: Patient;
-  allergies: Allergy[];
-  setAllergies: React.Dispatch<React.SetStateAction<Allergy[]>>;
+  painManagement: PainManagement[];
+  setPainManagement: React.Dispatch<React.SetStateAction<PainManagement[]>>;
 };
 
-const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
+const PainManage = ({
+  patient,
+  painManagement,
+  setPainManagement,
+}: PainManageProps) => {
   const [options, setOptions] = useState(false);
   const [add, setAdd] = useState(false);
 
-  const deleteAllergy = async (allergy_id: number) => {
-    await deletePatientAllergy(allergy_id);
-    const newAllergies = allergies.filter(
-      (allergy) => allergy.allergy_id !== allergy_id,
-    );
-    setAllergies(newAllergies);
+  const deletePain = async (pm_id: number) => {
+    await deleteFromPainManagement(pm_id);
+    const pain = painManagement.filter((pain) => pain.pm_id !== pm_id);
+    setPainManagement(pain);
   };
 
   return (
     <div>
       {add ? (
-        <AddAllergy
+        <AddPainManage
           setAdd={setAdd}
           patient={patient}
-          allergies={allergies}
-          setAllergies={setAllergies}
+          painManagement={painManagement}
+          setPainManagement={setPainManagement}
         />
       ) : null}
       <ul className="border-2 border-black rounded-md overflow-auto h-48">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
-            <span className="font-bold">Allergy</span>
+            <span className="font-bold">Pain Management</span>
             {options ? (
               <button
                 type="button"
@@ -63,15 +68,15 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             {options ? <MdFileDownloadDone /> : <SlOptions />}
           </button>
         </div>
-        {allergies.length ? (
-          allergies?.map(({ allergy_id, allergy }) => (
-            <li className="flex flex-row justify-between pl-2" key={allergy_id}>
-              <div>{allergy}</div>
+        {painManagement.length ? (
+          painManagement?.map(({ pm_id, pain }) => (
+            <li className="flex flex-row justify-between pl-2" key={pm_id}>
+              <div>{pain}</div>
               {options ? (
                 <button
                   type="button"
                   className="mr-2 hover:text-red-600 active:bg-red-600"
-                  onClick={() => deleteAllergy(allergy_id)}
+                  onClick={() => deletePain(pm_id)}
                 >
                   <FaMinus />
                 </button>
@@ -79,11 +84,11 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             </li>
           ))
         ) : (
-          <div>No Known Allergies</div>
+          <div>No Known Pain Management</div>
         )}
       </ul>
     </div>
   );
 };
 
-export default Allergies;
+export default PainManage;

@@ -7,15 +7,35 @@ import type {
   PastMedicalHistory,
   PastSurgicalHistory,
   CurrentMedication,
+  ProcedureDone,
+  FamilyHistory,
+  PainManagement,
 } from "@/types";
-import { Allergies, Notes } from ".";
+import {
+  Allergies,
+  Notes,
+  MedicalHistory,
+  SurgicalHistory,
+  CurrentMedical,
+  SocialHist,
+  ProcedureList,
+  FamilyHist,
+  PainManage,
+} from ".";
 import { useState, useEffect, Suspense } from "react";
-import { deleteNote, getPatientNotes, updateNote } from "@/actions/notes";
+import { getPatientNotes } from "@/actions/notes";
 import { getPatientAllergies } from "@/actions/allergy";
 import { getMedicalHistory } from "@/actions/medical-history";
+import { getSurgicalHistory } from "@/actions/surgical-history";
+import { getCurrentMedications } from "@/actions/current-medication";
+import { getSocialHistory } from "@/actions/social-history";
+import { getProceduresDone } from "@/actions/procedures-list";
+import { getFamilyHistory } from "@/actions/family-history";
+import { getPainManagement } from "@/actions/pain-management";
 import moment from "moment";
 import { HiX, HiPencilAlt } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { SocialHistory } from "@prisma/client";
 
 type PatientDetailsProps = {
   patient: Patient;
@@ -24,9 +44,15 @@ type PatientDetailsProps = {
 const PatientDetails = ({ patient }: PatientDetailsProps) => {
   const [allergies, setAllergies] = useState<Allergy[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
-  const [medical, setMedical] = useState<PastMedicalHistory[] | null>(null);
-  const [surgical, setSurgical] = useState<PastSurgicalHistory | null>(null);
-  const [medication, setMedication] = useState<CurrentMedication | null>(null);
+  const [medical, setMedical] = useState<PastMedicalHistory[]>([]);
+  const [surgical, setSurgical] = useState<PastSurgicalHistory[]>([]);
+  const [currentMedication, setCurrentMedication] = useState<
+    CurrentMedication[]
+  >([]);
+  const [socialHistory, setSocialHistory] = useState<SocialHistory[]>([]);
+  const [procedureDone, setProcedureDone] = useState<ProcedureDone[]>([]);
+  const [familyHistory, setFamilyHistory] = useState<FamilyHistory[]>([]);
+  const [painManagement, setPainManagement] = useState<PainManagement[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,6 +69,42 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
 
       if (medical) {
         setMedical(medical);
+      }
+
+      const surgical = await getSurgicalHistory(patient.patient_id);
+
+      if (surgical) {
+        setSurgical(surgical);
+      }
+
+      const medication = await getCurrentMedications(patient.patient_id);
+
+      if (medication) {
+        setCurrentMedication(medication);
+      }
+
+      const social = await getSocialHistory(patient.patient_id);
+
+      if (social) {
+        setSocialHistory(social);
+      }
+
+      const procedure = await getProceduresDone(patient.patient_id);
+
+      if (procedure) {
+        setProcedureDone(procedure);
+      }
+
+      const family = await getFamilyHistory(patient.patient_id);
+
+      if (family) {
+        setFamilyHistory(family);
+      }
+
+      const pain = await getPainManagement(patient.patient_id);
+
+      if (pain) {
+        setPainManagement(pain);
       }
     };
     getData();
@@ -89,37 +151,58 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
             setAllergies={setAllergies}
           />
         </Suspense>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Past Medical History</span>
-          <div>No Known Medical History</div>
-        </div>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Past Surgical History</span>
-          <div>No Known Surgical History</div>
-        </div>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Current Medication</span>
-          <div>No Known Current Medication</div>
-        </div>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Social History</span>
-          <div>No Known Social History</div>
-        </div>
+        <Suspense fallback={<p>...loading</p>}>
+          <MedicalHistory
+            patient={patient}
+            medical={medical}
+            setMedical={setMedical}
+          />
+        </Suspense>
+        <Suspense fallback={<p>...loading</p>}>
+          <SurgicalHistory
+            patient={patient}
+            surgical={surgical}
+            setSurgical={setSurgical}
+          />
+        </Suspense>
+        <Suspense fallback={<p>...loading</p>}>
+          <CurrentMedical
+            patient={patient}
+            currentMedication={currentMedication}
+            setCurrentMedication={setCurrentMedication}
+          />
+        </Suspense>
+        <Suspense fallback={<p>...loading</p>}>
+          <SocialHist
+            patient={patient}
+            socialHistory={socialHistory}
+            setSocialHistory={setSocialHistory}
+          />
+        </Suspense>
         <Suspense fallback={<p>...loading</p>}>
           <Notes patient={patient} notes={notes} setNotes={setNotes} />
         </Suspense>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">List of procedures done</span>
-          <div>No Known Procedures Done</div>
-        </div>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Family History</span>
-          <div>No Known Family History</div>
-        </div>
-        <div className="border-2 border-black rounded-md h-48">
-          <span className="font-bold">Pain Management</span>
-          <div>No Known Pain Management</div>
-        </div>
+        <Suspense fallback={<p>...loading</p>}>
+          <ProcedureList
+            patient={patient}
+            procedureDone={procedureDone}
+            setProcedureDone={setProcedureDone}
+          />
+        </Suspense>
+        <Suspense fallback={<p>...loading</p>}>
+          <FamilyHist
+            patient={patient}
+            familyHistory={familyHistory}
+            setFamilyHistory={setFamilyHistory}
+          />
+        </Suspense>
+        <Suspense fallback={<p>...loading</p>}>
+          <PainManage
+            patient={patient}
+            painManagement={painManagement}
+            setPainManagement={setPainManagement}
+          />
+        </Suspense>
       </div>
     </div>
   );

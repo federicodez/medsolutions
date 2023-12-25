@@ -67,7 +67,7 @@ export type PainManagement = {
   patient_id: number;
 };
 
-export type Procedure_Done = {
+export type ProcedureDone = {
   pd_id: number;
   procedure?: string | null;
   createdAt: DateTime | null;

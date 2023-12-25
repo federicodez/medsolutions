@@ -77,70 +77,74 @@ const Notes = ({ patient, notes, setNotes }: NotesProps) => {
           </button>
         </div>
 
-        {notes?.map(({ note_id, note, createdAt, updatedAt }) => (
-          <li className="p-2 my-2" key={note_id}>
-            {update === note_id ? (
-              <form
-                className="flex flex-col m-2"
-                action={() => handleSubmit(note_id)}
-              >
-                <label htmlFor="note" className="text-center font-semibold">
-                  New Note
-                </label>
-                <input
-                  type="text"
-                  className="rounded-md"
-                  onChange={(e) =>
-                    setNewNote((e.target as HTMLInputElement).value)
-                  }
-                />
-                <div className="flex flex-col gap-2 mt-2">
-                  <button type="submit" className="bg-blue-300 rounded-md">
-                    Update
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-red-300 rounded-md"
-                    onClick={() => setUpdate(false)}
-                  >
-                    Cancel
-                  </button>
+        {notes.length ? (
+          notes?.map(({ note_id, note, createdAt, updatedAt }) => (
+            <li className="p-2 my-2" key={note_id}>
+              {update === note_id ? (
+                <form
+                  className="flex flex-col m-2"
+                  action={() => handleSubmit(note_id)}
+                >
+                  <label htmlFor="note" className="text-center font-semibold">
+                    New Note
+                  </label>
+                  <input
+                    type="text"
+                    className="rounded-md"
+                    onChange={(e) =>
+                      setNewNote((e.target as HTMLInputElement).value)
+                    }
+                  />
+                  <div className="flex flex-col gap-2 mt-2">
+                    <button type="submit" className="bg-blue-300 rounded-md">
+                      Update
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-red-300 rounded-md"
+                      onClick={() => setUpdate(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div>
+                  {options ? (
+                    <div className="flex justify-between w-full mb-2">
+                      <HiPencilAlt
+                        role="button"
+                        className="hover:text-yellow-500"
+                        onClick={() => setUpdate(note_id)}
+                      />
+                      <HiX
+                        role="button"
+                        className="hover:text-red-600"
+                        onClick={() => {
+                          deleteFromNotes(note_id);
+                          router.refresh();
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                  <div className="bg-white rounded-md pl-2">{note}</div>
+                  <div className="flex flex-row justify-between">
+                    <div className="flex flex-row gap-2">
+                      <p>Created</p>
+                      <div>{moment(createdAt).format("L")}</div>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      <p>Updated</p>
+                      <div>{moment(updatedAt).format("L")}</div>
+                    </div>
+                  </div>
                 </div>
-              </form>
-            ) : (
-              <div>
-                {options ? (
-                  <div className="flex justify-between w-full mb-2">
-                    <HiPencilAlt
-                      role="button"
-                      className="hover:text-yellow-500"
-                      onClick={() => setUpdate(note_id)}
-                    />
-                    <HiX
-                      role="button"
-                      className="hover:text-red-600"
-                      onClick={() => {
-                        deleteFromNotes(note_id);
-                        router.refresh();
-                      }}
-                    />
-                  </div>
-                ) : null}
-                <div className="bg-white rounded-md pl-2">{note}</div>
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-row gap-2">
-                    <p>Created</p>
-                    <div>{moment(createdAt).format("L")}</div>
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    <p>Updated</p>
-                    <div>{moment(updatedAt).format("L")}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
+              )}
+            </li>
+          ))
+        ) : (
+          <div>No Notes</div>
+        )}
       </ul>
     </div>
   );

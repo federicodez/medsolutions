@@ -1,50 +1,57 @@
 "use client";
 
-import type { Patient, Allergy } from "@/types";
+import type { Patient, ProcedureDone } from "@/types";
 import { useState, useEffect } from "react";
-import { getPatientAllergies, deletePatientAllergy } from "@/actions/allergy";
+import {
+  getProceduresDone,
+  deleteFromProceduresDone,
+} from "@/actions/procedures-list";
 import Options from "@/components/Options";
 import { SlOptions } from "react-icons/sl";
 import { MdFileDownloadDone } from "react-icons/md";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
-import { AddAllergy } from ".";
+import { AddProcedureList } from ".";
 
 export const dynamic = "force-dynamic";
 
-type AllergiesProps = {
+type ProcedureListProps = {
   patient: Patient;
-  allergies: Allergy[];
-  setAllergies: React.Dispatch<React.SetStateAction<Allergy[]>>;
+  procedureDone: ProcedureDone[];
+  setProcedureDone: React.Dispatch<React.SetStateAction<ProcedureDone[]>>;
 };
 
-const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
+const ProcedureList = ({
+  patient,
+  procedureDone,
+  setProcedureDone,
+}: ProcedureListProps) => {
   const [options, setOptions] = useState(false);
   const [add, setAdd] = useState(false);
 
-  const deleteAllergy = async (allergy_id: number) => {
-    await deletePatientAllergy(allergy_id);
-    const newAllergies = allergies.filter(
-      (allergy) => allergy.allergy_id !== allergy_id,
+  const deleteProcedure = async (pd_id: number) => {
+    await deleteFromProceduresDone(pd_id);
+    const newProcedure = procedureDone.filter(
+      (procedure) => procedure.pd_id !== pd_id,
     );
-    setAllergies(newAllergies);
+    setProcedureDone(newProcedure);
   };
 
   return (
     <div>
       {add ? (
-        <AddAllergy
+        <AddProcedureList
           setAdd={setAdd}
           patient={patient}
-          allergies={allergies}
-          setAllergies={setAllergies}
+          procedureDone={procedureDone}
+          setProcedureDone={setProcedureDone}
         />
       ) : null}
       <ul className="border-2 border-black rounded-md overflow-auto h-48">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
-            <span className="font-bold">Allergy</span>
+            <span className="font-bold">Procedures Done</span>
             {options ? (
               <button
                 type="button"
@@ -63,15 +70,15 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             {options ? <MdFileDownloadDone /> : <SlOptions />}
           </button>
         </div>
-        {allergies.length ? (
-          allergies?.map(({ allergy_id, allergy }) => (
-            <li className="flex flex-row justify-between pl-2" key={allergy_id}>
-              <div>{allergy}</div>
+        {procedureDone.length ? (
+          procedureDone?.map(({ pd_id, procedure }) => (
+            <li className="flex flex-row justify-between pl-2" key={pd_id}>
+              <div>{procedure}</div>
               {options ? (
                 <button
                   type="button"
                   className="mr-2 hover:text-red-600 active:bg-red-600"
-                  onClick={() => deleteAllergy(allergy_id)}
+                  onClick={() => deleteProcedure(pd_id)}
                 >
                   <FaMinus />
                 </button>
@@ -79,11 +86,11 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             </li>
           ))
         ) : (
-          <div>No Known Allergies</div>
+          <div>No Known Procedures Done</div>
         )}
       </ul>
     </div>
   );
 };
 
-export default Allergies;
+export default ProcedureList;

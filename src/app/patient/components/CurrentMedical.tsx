@@ -1,50 +1,59 @@
 "use client";
 
-import type { Patient, Allergy } from "@/types";
+import type { Patient, CurrentMedication } from "@/types";
 import { useState, useEffect } from "react";
-import { getPatientAllergies, deletePatientAllergy } from "@/actions/allergy";
+import {
+  getCurrentMedications,
+  deleteFromCurrentMedications,
+} from "@/actions/current-medication";
 import Options from "@/components/Options";
 import { SlOptions } from "react-icons/sl";
 import { MdFileDownloadDone } from "react-icons/md";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
-import { AddAllergy } from ".";
+import { AddCurrentMedication } from ".";
 
 export const dynamic = "force-dynamic";
 
-type AllergiesProps = {
+type CurrentMedicalProps = {
   patient: Patient;
-  allergies: Allergy[];
-  setAllergies: React.Dispatch<React.SetStateAction<Allergy[]>>;
+  currentMedication: CurrentMedication[];
+  setCurrentMedication: React.Dispatch<
+    React.SetStateAction<CurrentMedication[]>
+  >;
 };
 
-const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
+const CurrentMedical = ({
+  patient,
+  currentMedication,
+  setCurrentMedication,
+}: CurrentMedicalProps) => {
   const [options, setOptions] = useState(false);
   const [add, setAdd] = useState(false);
 
-  const deleteAllergy = async (allergy_id: number) => {
-    await deletePatientAllergy(allergy_id);
-    const newAllergies = allergies.filter(
-      (allergy) => allergy.allergy_id !== allergy_id,
+  const deleteCurrent = async (cm_id: number) => {
+    await deleteFromCurrentMedications(cm_id);
+    const newMedication = currentMedication.filter(
+      (medication) => medication.cm_id !== cm_id,
     );
-    setAllergies(newAllergies);
+    setCurrentMedication(newMedication);
   };
 
   return (
     <div>
       {add ? (
-        <AddAllergy
+        <AddCurrentMedication
           setAdd={setAdd}
           patient={patient}
-          allergies={allergies}
-          setAllergies={setAllergies}
+          currentMedication={currentMedication}
+          setCurrentMedication={setCurrentMedication}
         />
       ) : null}
       <ul className="border-2 border-black rounded-md overflow-auto h-48">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
-            <span className="font-bold">Allergy</span>
+            <span className="font-bold">Current Medication</span>
             {options ? (
               <button
                 type="button"
@@ -63,15 +72,15 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             {options ? <MdFileDownloadDone /> : <SlOptions />}
           </button>
         </div>
-        {allergies.length ? (
-          allergies?.map(({ allergy_id, allergy }) => (
-            <li className="flex flex-row justify-between pl-2" key={allergy_id}>
-              <div>{allergy}</div>
+        {currentMedication.length ? (
+          currentMedication?.map(({ cm_id, medication }) => (
+            <li className="flex flex-row justify-between pl-2" key={cm_id}>
+              <div>{medication}</div>
               {options ? (
                 <button
                   type="button"
                   className="mr-2 hover:text-red-600 active:bg-red-600"
-                  onClick={() => deleteAllergy(allergy_id)}
+                  onClick={() => deleteCurrent(cm_id)}
                 >
                   <FaMinus />
                 </button>
@@ -79,11 +88,11 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
             </li>
           ))
         ) : (
-          <div>No Known Allergies</div>
+          <div>No Known Current Medication</div>
         )}
       </ul>
     </div>
   );
 };
 
-export default Allergies;
+export default CurrentMedical;
