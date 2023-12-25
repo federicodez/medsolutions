@@ -1,8 +1,6 @@
 import { PatientList } from "./components";
 import { getPatients } from "@/actions/patients";
 
-export const dynamic = "force-dynamic";
-
 const Patients = async () => {
   try {
     const patients = await getPatients();

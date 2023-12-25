@@ -2,7 +2,7 @@
 
 import type { Patient } from "@/types";
 import { useState } from "react";
-import { PatientDetails, PatientOptions, NoteForm } from ".";
+import { PatientOptions } from ".";
 import { SlOptions } from "react-icons/sl";
 import { CiHome } from "react-icons/ci";
 import { FaUserPlus } from "react-icons/fa6";

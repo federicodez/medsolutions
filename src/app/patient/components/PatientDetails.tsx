@@ -111,15 +111,21 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
   }, [patient.patient_id]);
 
   return (
-    <div className="absolute top-0 left-0 pb-20 md:pb-0 md:left-20 w-full bg-gray-300 p-2 md:px-20 rounded-md">
-      <div className="flex flex-col md:flex-row justify-between gap-2 border-2 border-black rounded-md p-2">
+    <div className="flex flex-col justify-center items-center pb-20 md:pb-0 md:left-20 w-full p-5 md:pl-20 rounded-md">
+      <div className="flex flex-col md:flex-row justify-between w-full border-2 border-black rounded-md p-2">
         <div className="flex flex-col">
           <div className="capitalize">
             {patient.name.split(" ").reverse().join(", ")}
           </div>
           <div className="flex flex-row gap-2">
             <span className="font-bold">dob:</span>
-            <div>{moment(patient.dob).format("MMMM Do YYYY")}</div>
+            <div>{moment(patient.dob).format("MMMM Do, YYYY")}</div>
+            <div>
+              {`(${
+                Number(moment().format("y")) -
+                Number(moment(patient.dob).format("y"))
+              } years old)`}
+            </div>
           </div>
         </div>
         <div className="flex flex-col">
@@ -143,7 +149,7 @@ const PatientDetails = ({ patient }: PatientDetailsProps) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 w-full mt-2">
         <Suspense fallback={<p>...loading</p>}>
           <Allergies
             patient={patient}

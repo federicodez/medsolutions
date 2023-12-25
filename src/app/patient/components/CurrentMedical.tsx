@@ -14,8 +14,6 @@ import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
 import { AddCurrentMedication } from ".";
 
-export const dynamic = "force-dynamic";
-
 type CurrentMedicalProps = {
   patient: Patient;
   currentMedication: CurrentMedication[];
@@ -50,7 +48,7 @@ const CurrentMedical = ({
           setCurrentMedication={setCurrentMedication}
         />
       ) : null}
-      <ul className="border-2 border-black rounded-md overflow-auto h-48">
+      <ul className="border-2 border-black rounded-md overflow-auto h-48 px-2">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Current Medication</span>

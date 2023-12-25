@@ -14,8 +14,6 @@ import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
 import { AddSocialHist } from ".";
 
-export const dynamic = "force-dynamic";
-
 type SocialHistProps = {
   patient: Patient;
   socialHistory: SocialHistory[];
@@ -48,7 +46,7 @@ const SocialHist = ({
           setSocialHistory={setSocialHistory}
         />
       ) : null}
-      <ul className="border-2 border-black rounded-md overflow-auto h-48">
+      <ul className="border-2 border-black rounded-md overflow-auto h-48 px-2">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Social History</span>

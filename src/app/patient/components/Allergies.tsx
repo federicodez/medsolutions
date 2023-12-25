@@ -11,8 +11,6 @@ import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
 import { AddAllergy } from ".";
 
-export const dynamic = "force-dynamic";
-
 type AllergiesProps = {
   patient: Patient;
   allergies: Allergy[];
@@ -41,7 +39,7 @@ const Allergies = ({ patient, allergies, setAllergies }: AllergiesProps) => {
           setAllergies={setAllergies}
         />
       ) : null}
-      <ul className="border-2 border-black rounded-md overflow-auto h-48">
+      <ul className="border-2 border-black rounded-md overflow-auto h-48 px-2">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Allergy</span>

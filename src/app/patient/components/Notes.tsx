@@ -13,8 +13,6 @@ import { AddNote } from ".";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 
-export const dynamic = "force-dynamic";
-
 type NotesProps = {
   patient: Patient;
   notes: Note[];
@@ -50,14 +48,14 @@ const Notes = ({ patient, notes, setNotes }: NotesProps) => {
           setNotes={setNotes}
         />
       ) : null}
-      <ul className="border-2 border-black rounded-md overflow-auto h-48">
+      <ul className="border-2 border-black rounded-md overflow-y-auto h-48 px-2">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Notes</span>
             {options ? (
               <button
                 type="button"
-                className="hover:text-blue-400"
+                className="hover:text-blue-400 hover:scale-150"
                 onClick={() => setAdd(true)}
               >
                 <FaPlus />
@@ -70,9 +68,9 @@ const Notes = ({ patient, notes, setNotes }: NotesProps) => {
             onClick={() => setOptions(!options)}
           >
             {options ? (
-              <MdFileDownloadDone className="hover:text-green-500" />
+              <MdFileDownloadDone className="hover:text-green-500 hover:scale-150" />
             ) : (
-              <SlOptions className="hover:bg-gray-800 hover:text-white rounded-md" />
+              <SlOptions className="hover:scale-150 rounded-md" />
             )}
           </button>
         </div>
@@ -112,14 +110,9 @@ const Notes = ({ patient, notes, setNotes }: NotesProps) => {
                 <div>
                   {options ? (
                     <div className="flex justify-between w-full mb-2">
-                      <HiPencilAlt
-                        role="button"
-                        className="hover:text-yellow-500"
-                        onClick={() => setUpdate(note_id)}
-                      />
                       <HiX
                         role="button"
-                        className="hover:text-red-600"
+                        className="hover:text-red-600 hover:scale-150"
                         onClick={() => {
                           deleteFromNotes(note_id);
                           router.refresh();
@@ -127,8 +120,19 @@ const Notes = ({ patient, notes, setNotes }: NotesProps) => {
                       />
                     </div>
                   ) : null}
-                  <div className="bg-white rounded-md pl-2">{note}</div>
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row justify-between items-center bg-yellow-100 rounded-md">
+                    <div className="pl-2">{note}</div>
+
+                    {options ? (
+                      <HiPencilAlt
+                        role="button"
+                        className="hover:scale-150"
+                        onClick={() => setUpdate(note_id)}
+                      />
+                    ) : null}
+                  </div>
+
+                  <div className="flex flex-wrap justify-between">
                     <div className="flex flex-row gap-2">
                       <p>Created</p>
                       <div>{moment(createdAt).format("L")}</div>

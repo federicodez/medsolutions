@@ -2,14 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-primary: linear-gradient(45deg, #fff, #c5dff8);
+  --nav-primary: #03045e;
+  --nav-secondary: #c5dff8;
+  --clr-red-900: hsla(360, 100%, 17%, 1);
+  --clr-blue-500: hsla(227, 47%, 23%, 1);
+  --clr-blue-900: hsla(227, 100%, 17%, 1);
+
+  --ff-base: "Outfit", sans-serif;
+
+  --fw-regular: 300;
+  --fw-semi-bold: 400;
+  --fw-bold: 700;
+
+  --fs-200: 0.875rem;
+  --fs-300: 1rem;
+  --fs-400: 1.125rem;
+  --fs-500: 1.375rem;
+  --fs-600: 1.75rem;
+  --fs-700: 3.25rem;
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-html {
-  background-color: #edede9;
 }
 
 body {

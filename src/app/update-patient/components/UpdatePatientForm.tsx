@@ -25,15 +25,17 @@ const UpdatePatientForm = ({ patient }: UpdatePatientFormProps) => {
     const primary_insurance = newPrimaryIns || patient.primary_insurance;
     const provider = newProvider || patient.provider;
     const visit_status = newVisitStatus || patient.visit_status;
-    await updatePatient(
-      patient.patient_id,
-      name,
-      dob,
-      primary_insurance,
-      provider,
-      visit_status,
-    );
-    router.push("/patients");
+    if (primary_insurance && provider) {
+      await updatePatient(
+        patient.patient_id,
+        name,
+        dob,
+        primary_insurance,
+        provider,
+        visit_status,
+      );
+      router.push("/patients");
+    }
   };
 
   return (

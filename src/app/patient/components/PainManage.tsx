@@ -14,8 +14,6 @@ import { HiX } from "react-icons/hi";
 import { HiPlus } from "react-icons/hi2";
 import { AddPainManage } from ".";
 
-export const dynamic = "force-dynamic";
-
 type PainManageProps = {
   patient: Patient;
   painManagement: PainManagement[];
@@ -46,7 +44,7 @@ const PainManage = ({
           setPainManagement={setPainManagement}
         />
       ) : null}
-      <ul className="border-2 border-black rounded-md overflow-auto h-48">
+      <ul className="border-2 border-black rounded-md overflow-auto h-48 px-2">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-2">
             <span className="font-bold">Pain Management</span>
